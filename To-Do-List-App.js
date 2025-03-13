@@ -20,10 +20,10 @@ categoryLinks.forEach(link =>{
 // Add task
 addBtn.addEventListener('click', () => {
     const taskText = taskInput.value.trim();
-    if (taskText !== '') {
+    if (!taskText) {
         alert("Please enter a text");
         return; 
-        taskInput.value = '';
+        // taskInput.value = '';
     }
     if (!selectedCategory) {
         alert("Please select a category!");
