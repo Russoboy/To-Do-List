@@ -1,184 +1,103 @@
-:root {
-  --white: #fff;
-  --light-grey: #f5f6f7;
-  --dark-grey: #0a0a23;
-  --yellow: #f1be32;
-  --golden-yellow: #feac32;
-}
-
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/*This is a CSS file*/
 body {
-  background-color: var(--dark-grey);
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
 h1 {
-  color: var(--light-grey);
-  margin: 20px 0 40px 0;
+    color: #333;
 }
 
-.todo-app {
-  background-color: var(--white);
-  width: 300px;
-  height: 350px;
-  border: 5px solid var(--yellow);
-  border-radius: 8px;
-  padding: 15px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.todo-container {
+    margin: 20px;
 }
 
-.btn {
-  cursor: pointer;
-  width: 100px;
-  margin: 10px;
-  color: var(--dark-grey);
-  background-color: var(--golden-yellow);
-  background-image: linear-gradient(#fecc4c, #ffac33);
-  border-color: var(--golden-yellow);
-  border-width: 3px;
+input[type="text"] {
+    width: 60%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
 }
 
-.btn:hover {
-  background-image: linear-gradient(#ffcc4c, #f89808);
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
 
-.large-btn {
-  width: 80%;
-  font-size: 1.2rem;
-  align-self: center;
-  justify-self: center;
+ul {
+    list-style-type: none;
+    padding: 0;
 }
 
-.close-task-form-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
 }
 
-.close-icon {
-  width: 20px;
-  height: 20px;
+.completed {
+    text-decoration: line-through;
+    color: #888;
 }
 
-.task-form {
-  display: flex;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--white);
-  border-radius: 5px;
-  padding: 15px;
-  width: 300px;
-  height: 350px;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: auto;
+button.edit-btn, button.delete-btn {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
 
-.task-form-header {
-  display: flex;
-  justify-content: flex-end;
-}
 
-.task-form-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
 
-.task-form-footer {
-  display: flex;
-  justify-content: center;
-}
-
-.task-form-label,
-#title-input,
-#date-input,
-#description-input {
-  display: block;
-}
-
-.task-form-label {
-  margin-bottom: 5px;
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
-#title-input,
-#date-input,
-#description-input {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 2px;
-}
-
-#confirm-close-dialog {
-  padding: 10px;
-  margin: 10px auto;
-  border-radius: 15px;
-}
-
-.confirm-close-dialog-btn-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.discard-message-text {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-#tasks-container {
-  height: 100%;
-  overflow-y: auto;
-}
-
-.task {
-  margin: 5px 0;
-}
-
-.hidden {
-  display: none;
-}
-
-@media (min-width: 576px) {
-  .todo-app,
-  .task-form {
-    width: 400px;
-    height: 450px;
+/* Dropdown Button */
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
   }
-
-  .task-form-label {
-    font-size: 1.5rem;
+  
+  /* Dropdown button on hover & focus */
+  .dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
   }
-
-  #title-input,
-  #date-input {
-    height: 2rem;
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
   }
-
-  #title-input,
-  #date-input,
-  #description-input {
-    padding: 5px;
-    margin-bottom: 20px;
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
   }
-}
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+  .show {display:block;}
