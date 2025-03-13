@@ -1,120 +1,95 @@
-const taskForm = document.getElementById("task-form");
-const confirmCloseDialog = document.getElementById("confirm-close-dialog");
-const openTaskFormBtn = document.getElementById("open-task-form-btn");
-const closeTaskFormBtn = document.getElementById("close-task-form-btn");
-const addOrUpdateTaskBtn = document.getElementById("add-or-update-task-btn");
-const cancelBtn = document.getElementById("cancel-btn");
-const discardBtn = document.getElementById("discard-btn");
-const tasksContainer = document.getElementById("tasks-container");
-const titleInput = document.getElementById("title-input");
-const dateInput = document.getElementById("date-input");
-const descriptionInput = document.getElementById("description-input");
+// Select elements
+const taskInput = document.getElementById('task');
+const addBtn = document.getElementById('add-btn');
+const taskList = document.getElementById('task-list');
+const dropdown = document.getElementsByClassName('dropdown');
+const categoryLinks = document.querySelectorAll("#myDropdown a");
 
-const taskData = JSON.parse(localStorage.getItem("data")) || [];
-let currentTask = {};
 
-const addOrUpdateTask = () => {
-  const dataArrIndex = taskData.findIndex((item) => item.id === currentTask.id);
-  const taskObj = {
-    id: `${titleInput.value.toLowerCase().split(" ").join("-")}-${Date.now()}`,
-    title: titleInput.value,
-    date: dateInput.value,
-    description: descriptionInput.value,
-  };
+let selectedCategory = null;
 
-  if (dataArrIndex === -1) {
-    taskData.unshift(taskObj);
-  } else {
-    taskData[dataArrIndex] = taskObj;
+//Category notes
+categoryLinks.forEach(link =>{
+    link.addEventListener('click', (event) => {
+        event.preventDefault();
+        selectedCategory = link.textContent.trim(); // Store the category
+        document.querySelector('.dropbtn').textContent = `Category: ${selectedCategory}`; // Update button text
+    });
+});
+
+// Add task
+addBtn.addEventListener('click', () => {
+    const taskText = taskInput.value.trim();
+    if (taskText !== '') {
+        alert("Please enter a text");
+        return; 
+        taskInput.value = '';
+    }
+    if (!selectedCategory) {
+        alert("Please select a category!");
+        return; 
+    }
+    createTask(taskText, selectedCategory);
+    taskInput.value = '';
+    selectedCategory = null;
+    document.querySelector('.dropbtn').textContent = "Category"
+});
+
+// Create task
+ const createTask = (text, category) => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+        <span>${text} - <strong>${category}</strong></span>
+        <button class="edit-btn">Edit</button>
+        <button class="delete-btn">Delete</button>
+    `;
+    taskList.appendChild(li);
+     addTaskEventListeners(li);
+}
+
+// Add event listeners for Edit and Delete buttons
+const addTaskEventListeners = (taskItem) => {
+    const editBtn = taskItem.querySelector('.edit-btn');
+    const deleteBtn = taskItem.querySelector('.delete-btn');
+    const taskText = taskItem.querySelector('span');
+
+    editBtn.addEventListener('click', () => {
+        const newText = prompt('Edit task:', taskText.textContent);
+        if (newText !== null) {
+            taskText.textContent = newText;
+        }
+    });
+
+    deleteBtn.addEventListener('click', () => {
+        taskItem.remove();
+    });
+
+    taskText.addEventListener('click', () => {
+        taskText.classList.toggle('completed');
+    });
+}
+
+taskInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        addBtn.click();
+    }
+});
+
+
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
   }
-
-  localStorage.setItem("data", JSON.stringify(taskData));
-  updateTaskContainer()
-  reset()
-};
-
-const updateTaskContainer = () => {
-  tasksContainer.innerHTML = "";
-
-  taskData.forEach(
-    ({ id, title, date, description }) =>
-      (tasksContainer.innerHTML += `
-      <div class="task" id="${id}">
-        <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Date:</strong> ${date}</p>
-        <p><strong>Description:</strong> ${description}</p>
-        <button onclick="editTask(this)" type="button" class="btn">Edit</button>
-        <button onclick="deleteTask(this)" type="button" class="btn">Delete</button> 
-      </div>
-    `)
-  );
-};
-
-
-const deleteTask = (buttonEl) => {
-  const dataArrIndex = taskData.findIndex(
-    (item) => item.id === buttonEl.parentElement.id
-  );
-
-  buttonEl.parentElement.remove();
-  taskData.splice(dataArrIndex, 1);
-  localStorage.setItem("data", JSON.stringify(taskData));
-}
-
-const editTask = (buttonEl) => {
-    const dataArrIndex = taskData.findIndex(
-    (item) => item.id === buttonEl.parentElement.id
-  );
-
-  currentTask = taskData[dataArrIndex];
-
-  titleInput.value = currentTask.title;
-  dateInput.value = currentTask.date;
-  descriptionInput.value = currentTask.description;
-
-  addOrUpdateTaskBtn.innerText = "Update Task";
-  addOrUpdateTaskBtn.ariaLabel = "Update Task";
-
-  taskForm.classList.toggle("hidden");  
-}
-
-const reset = () => {
-  titleInput.value = "";
-  dateInput.value = "";
-  descriptionInput.value = "";
-  taskForm.classList.toggle("hidden");
-  currentTask = {};
-}
-
-if (taskData.length) {
-  updateTaskContainer();
-}
-
-
-openTaskFormBtn.addEventListener("click", () =>
-  taskForm.classList.toggle("hidden")
-);
-
-closeTaskFormBtn.addEventListener("click", () => {
-  const formInputsContainValues = titleInput.value || dateInput.value || descriptionInput.value;
-  const formInputValuesUpdated = titleInput.value !== currentTask.title || dateInput.value !== currentTask.date || descriptionInput.value !== currentTask.description;
-
-  if (formInputsContainValues && formInputValuesUpdated) {
-    confirmCloseDialog.showModal();
-  } else {
-    reset();
+  
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
   }
-});
-
-cancelBtn.addEventListener("click", () => confirmCloseDialog.close());
-
-discardBtn.addEventListener("click", () => {
-  confirmCloseDialog.close();
-  reset()
-});
-
-taskForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  addOrUpdateTask();
-});
