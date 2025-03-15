@@ -2,9 +2,8 @@
 const taskInput = document.getElementById('task');
 const addBtn = document.getElementById('add-btn');
 const taskList = document.getElementById('task-list');
-const dropdown = document.getElementsByClassName('dropdown');
 const categoryLinks = document.querySelectorAll("#myDropdown a");
-
+const deleteAllBtn = document.getElementById('deleteAllBtn')
 
 let selectedCategory = null;
 
@@ -16,6 +15,14 @@ categoryLinks.forEach(link =>{
         document.querySelector('.dropbtn').textContent = `Category: ${selectedCategory}`; // Update button text
     });
 });
+//Delete all Feature
+deleteAllBtn.addEventListener('click', ()=>{
+    taskList.innerHTML = `<p><i>Items deleted</p></i>`
+    setTimeout(() => {
+        taskList.innerHTML = '';
+    }, 4000) 
+
+})
 
 // Add task
 addBtn.addEventListener('click', () => {
@@ -36,29 +43,43 @@ addBtn.addEventListener('click', () => {
 });
 
 // Create task
- const createTask = (text, category) => {
+ const createTask = (text, category) => { //addded category
     const li = document.createElement('li');
     li.innerHTML = `
-        <span>${text} - <strong>${category}</strong></span>
+        <span>${text} - <strong>${category}</strong></span> 
         <button class="edit-btn">Edit</button>
         <button class="delete-btn">Delete</button>
-    `;
+    `;//added the class task-text but later removed it
     taskList.appendChild(li);
-     addTaskEventListeners(li);
+     addTaskEventListeners(li, category);//added category
 }
 
 // Add event listeners for Edit and Delete buttons
-const addTaskEventListeners = (taskItem) => {
+const addTaskEventListeners = (taskItem, category) => {
     const editBtn = taskItem.querySelector('.edit-btn');
     const deleteBtn = taskItem.querySelector('.delete-btn');
     const taskText = taskItem.querySelector('span');
 
-    editBtn.addEventListener('click', () => {
-        const newText = prompt('Edit task:', taskText.textContent);
-        if (newText !== null) {
-            taskText.textContent = newText;
-        }
+
+     editBtn.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = "text";
+        input.value = taskText.textContent.split(" - ")[0]; // Get only task text (without category)
+        taskText.replaceWith(input);
+        input.focus();
+
+        // Save on Enter or when clicking outside
+        const saveEdit = () => {
+            taskText.innerHTML = `${input.value} - <strong>${category}</strong>`;
+            input.replaceWith(taskText);
+        };
+
+        input.addEventListener('blur', saveEdit); // Save when clicking outside
+        input.addEventListener('keydown', (event) => {
+            if (event.key === "Enter") saveEdit(); // Save on Enter
+        });
     });
+
 
     deleteBtn.addEventListener('click', () => {
         taskItem.remove();
@@ -93,3 +114,8 @@ function myFunction() {
       }
     }
   }
+
+//   Features included so far
+// Categorize Notes
+// Edit inline
+//Delete all Feature
