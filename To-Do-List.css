@@ -46,6 +46,9 @@ li {
     color: #888;
 }
 
+#deleteAllBtn{
+    background-color: red;
+}
 button.edit-btn, button.delete-btn {
     padding: 5px 10px;
     margin-left: 5px;
