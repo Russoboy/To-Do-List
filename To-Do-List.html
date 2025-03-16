@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Original-to-do-list-Edit-line.css">
 </head>
 <body>
-    <h1>Simple To-Do List</h1>
+    <h1 style="color: grey;">Simple To-Do List</h1>
     <div class="todo-container">
         <input type="text" id="task" placeholder="Add a task...">
         <div class="dropdown">
@@ -26,6 +26,14 @@
         <button id="switchToDarkBtn" >Darkmode</button>
     </div>
     <ul id="task-list"></ul>
-    <script src="Original-to-do-list-Edit-line.js"></script>
+    <script>
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+    </script>
+    
+    <script type="module" src="Original-to-do-list-Edit-line.js"></script>
+    <script src="to-do-list-Edit-inline.js"></script>
+
 </body>
 </html>
