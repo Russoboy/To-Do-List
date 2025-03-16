@@ -6,7 +6,7 @@ const categoryLinks = document.querySelectorAll("#myDropdown a");
 const deleteAllBtn = document.getElementById('deleteAllBtn');
 const taskTimeInput = document.getElementById('task-time');
 const taskTime = taskTimeInput ? taskTimeInput.value : null; // Prevents error if input is missing
-
+const switchToDarkBtn = document.getElementById('switchToDarkBtn');
 let selectedCategory = null;
 
 // Category selection
@@ -18,6 +18,10 @@ categoryLinks.forEach(link => {
     });
 });
 
+switchToDarkBtn.addEventListener('click',() => {
+    var element = document.body;
+    element.classList.toggle("dark-mode");
+})
 // Delete all tasks
 deleteAllBtn.addEventListener('click', () => {
     taskList.innerHTML = `<p><i>Items deleted</i></p>`;
