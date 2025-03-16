@@ -7,7 +7,17 @@ body {
 h1 {
     color: #333;
 }
-
+.dark-mode{
+  background-color: black;
+  color: white;
+}
+.dark-mode button{
+    color: white;
+    background-color: rgb(17, 0, 255);
+}
+.dark-mode body, h1{
+    color: white; 
+}
 .todo-container {
     margin: 20px;
 }
