@@ -58,7 +58,9 @@ button.edit-btn, button.delete-btn {
     cursor: pointer;
 }
 
-
+button.setTime{
+    background-color: blue;
+}
 
 /* Dropdown Button */
 .dropbtn {
