@@ -5,9 +5,11 @@ const taskList = document.getElementById('task-list');
 const categoryLinks = document.querySelectorAll("#myDropdown a");
 const deleteAllBtn = document.getElementById('deleteAllBtn');
 const taskTimeInput = document.getElementById('task-time');
-const taskTime = taskTimeInput ? taskTimeInput.value : null; // Prevents error if input is missing
 const switchToDarkBtn = document.getElementById('switchToDarkBtn');
 let selectedCategory = null;
+
+// Load tasks from localStorage on page load
+document.addEventListener("DOMContentLoaded", loadTasksFromStorage);
 
 // Category selection
 categoryLinks.forEach(link => {
@@ -18,13 +20,15 @@ categoryLinks.forEach(link => {
     });
 });
 
-switchToDarkBtn.addEventListener('click',() => {
-    var element = document.body;
-    element.classList.toggle("dark-mode");
-})
+// Toggle Dark Mode
+switchToDarkBtn.addEventListener('click', () => {
+    document.body.classList.toggle("dark-mode");
+});
+
 // Delete all tasks
 deleteAllBtn.addEventListener('click', () => {
     taskList.innerHTML = `<p><i>Items deleted</i></p>`;
+    localStorage.removeItem('tasks'); // Remove from storage
     setTimeout(() => {
         taskList.innerHTML = '';
     }, 4000);
@@ -38,8 +42,8 @@ if (Notification.permission !== "granted") {
 // Add task
 addBtn.addEventListener('click', () => {
     const taskText = taskInput.value.trim();
-    const taskTimeInput = document.getElementById('task-time').value; // Get time input
-    const taskTime = taskTimeInput ? taskTimeInput.value : null; // Prevents error if input is missing
+    const taskTime = taskTimeInput ? taskTimeInput.value : null;
+
     if (!taskText) {
         alert("Please enter a task!");
         return;
@@ -50,8 +54,9 @@ addBtn.addEventListener('click', () => {
     }
 
     createTask(taskText, selectedCategory, taskTime);
+    saveTaskToStorage(taskText, selectedCategory, taskTime);
     taskInput.value = '';
-    if (taskTimeInput) taskTimeInput.value = ''; // Clear time input
+    taskTimeInput.value = '';
     selectedCategory = null;
     document.querySelector('.dropbtn').textContent = "Category";
 });
@@ -64,7 +69,6 @@ const createTask = (text, category, time) => {
         ${time ? `<span class="task-time">📅 ${time}</span>` : ''}
         <button class="edit-btn">Edit</button>
         <button class="delete-btn">Delete</button>
-         <input type="datetime-local" id="task-time">
         ${time ? `<button class="cancel-timer">Cancel Timer</button>` : ''}
     `;
     
@@ -119,12 +123,14 @@ const addTaskEventListeners = (taskItem, category, text, time) => {
         input.addEventListener('blur', () => {
             taskText.innerHTML = `${input.value} - <strong>${category}</strong>`;
             input.replaceWith(taskText);
+            updateTaskInStorage(text, input.value);
         });
 
         input.addEventListener('keydown', (event) => {
             if (event.key === "Enter") {
                 taskText.innerHTML = `${input.value} - <strong>${category}</strong>`;
                 input.replaceWith(taskText);
+                updateTaskInStorage(text, input.value);
             }
         });
     });
@@ -132,6 +138,7 @@ const addTaskEventListeners = (taskItem, category, text, time) => {
     // Delete task
     deleteBtn.addEventListener('click', () => {
         taskItem.remove();
+        removeTaskFromStorage(text);
     });
 
     // Cancel timer
@@ -142,6 +149,38 @@ const addTaskEventListeners = (taskItem, category, text, time) => {
         });
     }
 };
+
+// Save task to localStorage
+function saveTaskToStorage(taskText, category, time) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push({ taskText, category, time });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Load tasks from localStorage on page load
+function loadTasksFromStorage() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(({ taskText, category, time }) => {
+        createTask(taskText, category, time);
+    });
+}
+
+// Remove task from localStorage
+function removeTaskFromStorage(taskText) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.filter(task => task.taskText !== taskText);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Update task in localStorage
+function updateTaskInStorage(oldText, newText) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const taskIndex = tasks.findIndex(task => task.taskText === oldText);
+    if (taskIndex !== -1) {
+        tasks[taskIndex].taskText = newText;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+}
 
 // Add task on pressing Enter
 taskInput.addEventListener('keydown', (event) => {
@@ -169,8 +208,11 @@ window.onclick = function(event) {
 };
 
 
+
 // FEATURES INCLUDED SO FAR
 // Dropdown Feature && Categorize Notes
 // Edit inline
 // Delete all Feature
 // Timer Notification feature
+// Toggle Switch Feature
+// Permanent Storage Feature when browser is reloaded
