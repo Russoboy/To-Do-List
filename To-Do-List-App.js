@@ -6,6 +6,8 @@ const categoryLinks = document.querySelectorAll("#myDropdown a");
 const deleteAllBtn = document.getElementById('deleteAllBtn');
 const taskTimeInput = document.getElementById('task-time');
 const switchToDarkBtn = document.getElementById('switchToDarkBtn');
+const searchBtn = document.getElementById('searchBtn');
+
 let selectedCategory = null;
 
 // Load tasks from localStorage on page load
@@ -38,6 +40,19 @@ deleteAllBtn.addEventListener('click', () => {
 if (Notification.permission !== "granted") {
     Notification.requestPermission();
 }
+
+
+
+searchBtn.addEventListener('click', ()=>{
+    let filter = taskInput.value.toLowerCase();
+    let tasks = taskList.children;
+
+    for(let li of tasks) {
+        let text = li.textContent.toLowerCase();
+        li.style.display = text.includes(filter) ? "block" : "none";
+     } 
+    });
+
 
 // Add task
 addBtn.addEventListener('click', () => {
@@ -216,3 +231,5 @@ window.onclick = function(event) {
 // Timer Notification feature
 // Toggle Switch Feature
 // Permanent Storage Feature when browser is reloaded
+// Search notes in the list
+// Persist data to local Storage
