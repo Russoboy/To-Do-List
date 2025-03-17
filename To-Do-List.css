@@ -1,9 +1,29 @@
 /*This is a CSS file*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     text-align: center;
 }
 
+body{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 1rem;
+    font-style: normal;
+  }
+
+:root{
+    --blue: #1e90ff;
+    --white: #ffffff;
+    --dark-purple:  rgba(128, 0, 128, 0.308);
+    --dark-blue: rgba(4, 0, 255, 0.678);
+}
+
+#to-do-list-Container{
+ margin-top: 5rem;   
+}
 h1 {
     color: #333;
 }
@@ -23,18 +43,24 @@ h1 {
 }
 
 input[type="text"] {
-    width: 60%;
+    width: 40%;
     padding: 10px;
     margin-right: 10px;
     border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
+input:focus {
+    /* background-color: blue; */
+    border: 2px solid #001068;
+  }
 button {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
     border: none;
     cursor: pointer;
+    font-family: "Montserrat", sans-serif;
 }
 
 ul {
