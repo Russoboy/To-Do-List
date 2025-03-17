@@ -8,3 +8,5 @@ THis is a to-do list app with the following features
 // Toggle Switch Feature
 // Permanent Storage Feature when browser is reloaded
 //Upcoming features coming soon
+// Search notes in the list
+// Persist data to local Storage
