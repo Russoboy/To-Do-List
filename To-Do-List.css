@@ -12,13 +12,14 @@ body{
     font-optical-sizing: auto;
     font-weight: 1rem;
     font-style: normal;
+    background-color: var(--dark-purple);
   }
 
 :root{
     --blue: #1e90ff;
     --white: #ffffff;
-    --dark-purple:  rgba(128, 0, 128, 0.308);
-    --dark-blue: rgba(4, 0, 255, 0.678);
+    --dark-purple:  rgba(118, 96, 212, 0.308);
+    --dark-blue: rgba(67, 47, 122, 0.678);
 }
 
 #to-do-list-Container{
@@ -28,15 +29,15 @@ h1 {
     color: #333;
 }
 .dark-mode{
-  background-color: black;
+  background-color: var(--dark-blue);
   color: white;
 }
 .dark-mode button{
     color: white;
     background-color: rgb(17, 0, 255);
 }
-.dark-mode body, h1{
-    color: white; 
+.dark-mode body h1{
+    color: rgb(142, 110, 233); 
 }
 .todo-container {
     margin: 20px;
@@ -48,19 +49,31 @@ input[type="text"] {
     margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    height: 1.5rem;
 }
 
 input:focus {
     /* background-color: blue; */
-    border: 2px solid #001068;
+    border: 3px solid #868dee;
+  }
+
+  #add-btn{
+    border-radius: 100%;
   }
 button {
-    padding: 10px 20px;
+    padding: 20px 25px;
     background-color: #007bff;
     color: #fff;
     border: none;
     cursor: pointer;
     font-family: "Montserrat", sans-serif;
+    border-radius: 12px;
+}
+#switchToDarkBtn{
+
+   margin-top: 1rem;
+   margin-left: 78rem;
+    position: relative;
 }
 
 ul {
@@ -117,6 +130,7 @@ button.setTime{
   .dropdown {
     position: relative;
     display: inline-block;
+    margin-left: 0.5rem;
   }
   
   /* Dropdown Content (Hidden by Default) */
