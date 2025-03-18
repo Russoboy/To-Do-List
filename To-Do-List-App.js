@@ -9,7 +9,8 @@ const switchToDarkBtn = document.getElementById('switchToDarkBtn');
 const searchBtn = document.getElementById('searchBtn');
 
 let selectedCategory = null;
-
+deleteAllBtn.style.display = 'none'
+searchBtn.style.display = 'none'
 // Load tasks from localStorage on page load
 document.addEventListener("DOMContentLoaded", loadTasksFromStorage);
 
@@ -61,13 +62,18 @@ addBtn.addEventListener('click', () => {
 
     if (!taskText) {
         alert("Please enter a task!");
+        deleteAllBtn.style.display = 'none'
+        searchBtn.style.display = 'none'
         return;
     }
     if (!selectedCategory) {
         alert("Please select a category!");
+        deleteAllBtn.style.display = 'none'
+        searchBtn.style.display = 'none'
         return;
     }
-
+    searchBtn.style.display = 'inline-block'
+    deleteAllBtn.style.display = 'inline-block'
     createTask(taskText, selectedCategory, taskTime);
     saveTaskToStorage(taskText, selectedCategory, taskTime);
     taskInput.value = '';
